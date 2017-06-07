@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var LocationSchema = new Schema({
 	tag_id: {
 		type: String,
-		Required: 'RFID tag name'
+		default: "Freddy"
 	},
 	Created_date: {
 		type: Date,
