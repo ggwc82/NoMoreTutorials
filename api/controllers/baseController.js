@@ -19,3 +19,11 @@ exports.create_a_location = function(req, res) {
 		res.json(loc);
 	});
 };
+
+exports.latest_datapoint = function(req, res) {
+	Location.findOne().sort( {_id: 'desc'} ).exec( function(err, loc) {
+		if (err)
+			res.send(err);
+		res.json(loc);
+	});
+}

@@ -8,4 +8,6 @@ module.exports = function(app) {
 		.get(base.list_all_locations)
 		.post(base.create_a_location);
 
+	app.route('/live')
+		.get(base.latest_datapoint);
 }
