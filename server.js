@@ -5,7 +5,7 @@ dotenv.config();
 var url = process.env.MONGOATLAS_URI;
 
 var app = express();
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3001;
 var mongoose = require('mongoose');
 var Location = require('./api/models/baseModel');
 var bodyParser = require('body-parser');
