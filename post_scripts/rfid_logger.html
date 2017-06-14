@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!-- Scheduled POST request script to replicate real-time data upload from DRM to the database -->
+<!-- @author GChiu on 13-07-16 -->
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="http://momentjs.com/downloads/moment.js"></script>
+  <title>rfid_logger</title>
+
+</head>
+<body>
+  <script>
+  var x_val = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+  var y_val = [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1];
+  var z_val = [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1];
+  
+    var index = 0;
+    var post_count = 0;
+
+    function fun() {
+      if (index == x_val.length ) {
+        index = 0;
+      }
+      now = moment.utc();
+      if (now.format('HH:mm:ss').toString() == start.format('HH:mm:ss').toString() && now.format('YYYY-MM-DD').toString() == start.format('YYYY-MM-DD').toString()) {
+      } else {
+        start = now;
+        $.ajax({
+          type: 'POST',
+          url: 'http://localhost:3000/locations',
+          data: {
+            tag_id: 'test_id',
+            x_coord: x_val[index],
+            y_coord: y_val[index],
+            z_coord: z_val[index]
+          },
+          dataType: 'json',
+          success: function (data) {
+            console.log("POST request successful");
+          },
+          complete: function(data) {
+            console.log(index);
+            index += 1;
+            post_count += 1;
+            console.log("POST request sent");
+            $('#status').text("POST request number " + post_count + " successfully called")
+          }
+        });
+      }
+    }
+    console.log("Starting")
+    var start = moment.utc();
+    setInterval(fun, 300);
+
+  </script>
+</body>
+<h1>rfid_logger</h1>
+<div id='status'>Starting POST request</div>
+</html>

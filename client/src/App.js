@@ -24,8 +24,20 @@ class App extends Component {
     );
   }
 
+  startRequest() {
+    this.timeout = setInterval( () => this.grabNewCoords(), 1000 )
+  }
+
+  stopRequest() {
+    
+      clearInterval(this.timeout);
+    
+  }
+
   render() {
-    const grabNewCoords = () => this.grabNewCoords();
+    // const grabNewCoords = () => this.grabNewCoords();
+    const startRequest = () => this.startRequest();
+    const stopRequest = () => this.stopRequest();
     return (
       <div className="App">
       <div className="App-header">
@@ -34,7 +46,8 @@ class App extends Component {
       <p className="App-intro">
       In this MVP/spike, we will demonstrate the RFID tracking app in 3 dimensions.
       </p>
-      <button onClick={grabNewCoords}>Grab new coordinates, Jim!</button>
+      <button onClick={startRequest}>Start Tracking</button>
+      <button onClick={stopRequest}>Stop Tracking</button>
       <ul>
         <li>tag_id: {this.state.tag_id}</li>
         <li>x_coord: {this.state.x_coord}</li>
