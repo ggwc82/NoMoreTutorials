@@ -1,27 +1,25 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import React3 from 'react-three-renderer';
 import * as THREE from 'three';
 import ReactDOM from 'react-dom';
 
 class TrackingCanvas extends Component {
-  	static propTypes = {
-    	changeNumber: PropTypes.func
-  	}
 
-	constructor(props, context) {
-    	super(props, context);
-    	this.grabNewCoords = this.grabNewCoords.bind(this);
+	constructor(props) {
+    	super(props);
     // construct the position vector here, because if we use 'new' within render,
     // React will think that things have changed when they have not.
     	this.cameraPosition = new THREE.Vector3(0, 0, 5);
 
     	this.state = {
-      		cubeRotation: new THREE.Euler(),      
-      		tag_id: "",
-      		x_coord: 0,
-      		y_coord: 0,
-      		z_coord: 0,
-    	};
+       		cubeRotation: new THREE.Euler(),      
+       		tag_id: "",
+        	location: {
+            x_coord: 0,
+        		y_coord: 0,
+        		z_coord: 0,
+    	      }
+          };
 
     	this._onAnimate = () => {
       	// we will get this callback every frame
@@ -35,19 +33,24 @@ class TrackingCanvas extends Component {
           	this.state.cubeRotation.y + 0.001,
           	0
         	),
+          tag_id: this.props.tag_id,
+          location: {
+            x_coord: this.props.location.x_coord,
+            y_coord: this.props.location.y_coord,
+            z_coord: this.props.location.z_coord
+          }
       	});
     };
   }
 
-  grabNewCoords(e) {
-    e.preventDefault();
-    this.props.changeNumber(e.target.value);
-  }
+  // grabNewCoords(e) {
+  //   e.preventDefault();
+  //   this.props.changeNumber(e.target.value);
+  // }
 
   render() {
     const width = window.innerWidth; // canvas width
     const height = window.innerHeight; // canvas height
-    console.log(this.state.x_coord)
     return (
     	<React3
       mainCamera="camera" // this points to the perspectiveCamera which has the name set to "camera" below
@@ -69,7 +72,7 @@ class TrackingCanvas extends Component {
         />
         <mesh
           rotation={this.state.cubeRotation}
-          position={ new THREE.Vector3(this.state.x_coord, this.state.y_coord, this.state.z_coord) }
+          position={ new THREE.Vector3(this.state.location.x_coord, this.state.location.y_coord, this.state.location.z_coord) }
         >
           <boxGeometry
             width={1}
