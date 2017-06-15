@@ -9,7 +9,7 @@ class TrackingCanvas extends Component {
     	super(props);
     // construct the position vector here, because if we use 'new' within render,
     // React will think that things have changed when they have not.
-    	this.cameraPosition = new THREE.Vector3(0, 0, 5);
+    	this.cameraPosition = new THREE.Vector3(5, 3, 10);
 
     	this.state = {
        		cubeRotation: new THREE.Euler(),      
@@ -74,15 +74,25 @@ class TrackingCanvas extends Component {
           rotation={this.state.cubeRotation}
           position={ new THREE.Vector3(this.state.location.x_coord, this.state.location.y_coord, this.state.location.z_coord) }
         >
-          <boxGeometry
-            width={1}
-            height={1}
-            depth={1}
+          <sphereGeometry
+            radius={1}
+            // widthSegments={5}
+            // heightSegments={5}
+            // phiStart={2}
+            // phiLength={2}
+            // thetaStart={2}
+            // thetaLength={4}
           />
           <meshBasicMaterial
             color={0x00ff00}
           />
         </mesh>
+        <gridHelper size={10} scale={new THREE.Vector3(1, 1, 1)} position={0,2,0} rotation={Math.PI/2} colorGrid={new THREE.Color( 'skyblue' )}>
+        </gridHelper>
+        <gridHelper size={10} scale={new THREE.Vector3(1, 1, 1)} position={0,2,0} rotation={new THREE.Euler(0, 1.57, 1.57)}>
+        </gridHelper>
+        <gridHelper size={10} scale={new THREE.Vector3(1, 1, 1)} rotation={new THREE.Euler(1.57, 0, 1.57)}>
+        </gridHelper>
       </scene>
     </React3>);
   }
